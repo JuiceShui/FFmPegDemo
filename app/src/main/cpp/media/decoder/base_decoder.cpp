@@ -90,6 +90,7 @@ void BaseDecoder::InitFFmPegDecoder(JNIEnv *env) {
     //获取编码器
     m_codec = avcodec_find_decoder(codecParameters->codec_id);
     //获取解码器上下文
+    m_codec_ctx = avcodec_alloc_context3(m_codec);
     result = avcodec_parameters_to_context(m_codec_ctx, codecParameters);
     if (result < 0) {
         LOGE(TAG, "Failed to get av codec context");
