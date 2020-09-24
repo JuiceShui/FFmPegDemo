@@ -1,9 +1,7 @@
-//
-// Created by cxp on 2019-07-31.
-//
 
-#ifndef LEARNVIDEO_LOGGER_H
-#define LEARNVIDEO_LOGGER_H
+
+#ifndef FFMPEGJNIDEMO_LOGGER_H
+#define FFMPEGJNIDEMO_LOGGER_H
 
 #include <android/log.h>
 
@@ -24,4 +22,4 @@
     #define LOGE(TAG, FORMAT,...) __android_log_print(ANDROID_LOG_ERROR,TAG,FORMAT,##__VA_ARGS__);
 #endif
 
-#endif //LEARNVIDEO_LOGGER_H
+#endif FFMPEGJNIDEMO_LOGGER_H

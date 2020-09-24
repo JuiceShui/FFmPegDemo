@@ -25,12 +25,16 @@ add_library(
         SHARED  #静态库方式
         native-lib.cpp #文件路径
 
+        #解码相关
         ${CMAKE_SOURCE_DIR}/media/decoder/i_decoder.h
         ${CMAKE_SOURCE_DIR}/media/decoder/decode_state.h
         ${CMAKE_SOURCE_DIR}/media/decoder/base_decoder.cpp
+        ${CMAKE_SOURCE_DIR}/media/decoder/video/v_decoder.h
+        ${CMAKE_SOURCE_DIR}/media/decoder/video/v_decoder.cpp
 
         #工具类
         ${CMAKE_SOURCE_DIR}/utils/logger.h
+        ${CMAKE_SOURCE_DIR}/utils/timer.c
 )
 
 #add_libray添加FFmpeg 相关so库，
