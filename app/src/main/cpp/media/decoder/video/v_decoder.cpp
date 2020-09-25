@@ -2,7 +2,6 @@
 // Created by Administrator on 2020/9/24.
 //
 
-#include <libavutil/imgutils.h>
 #include "v_decoder.h"
 
 VideoDecoder::VideoDecoder(JNIEnv *env, jstring path,
@@ -33,6 +32,10 @@ void VideoDecoder::InitBuffer() {
 }
 
 void VideoDecoder::InitSws() {
+    //初始化格式转换工具
+    m_sws_ctx = sws_getContext(width(), height(), video_pixel_format(),
+                               m_dst_w, m_dst_h, DST_FORMAT, SWS_FAST_BILINEAR,
+                               NULL, NULL, NULL);
 
 }
 
@@ -52,7 +55,24 @@ void VideoDecoder::Render(AVFrame *frame) {
 
 }
 
+//释放相关资源
 void VideoDecoder::Release() {
-
+    LOGE(TAG, "{VideoDecoder} release");
+    if (m_rgb_frame != NULL) {
+        av_frame_free(&m_rgb_frame);
+        m_rgb_frame = NULL;
+    }
+    if (m_buf_for_rgb_frame != NULL) {
+        free(m_buf_for_rgb_frame);
+        m_buf_for_rgb_frame = NULL;
+    }
+    if (m_sws_ctx != NULL) {
+        sws_freeContext(m_sws_ctx);
+        m_sws_ctx = NULL;
+    }
+    if (m_video_render != NULL) {
+        m_video_render->ReleaseRender();
+        m_video_render = NULL;
+    }
 }
 

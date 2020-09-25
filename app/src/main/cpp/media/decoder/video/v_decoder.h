@@ -7,10 +7,11 @@
 
 
 #include "../base_decoder.h"
-#include "../../render/video_render.h"
+#include "../../render/video/video_render.h"
 
 extern "C" {
 #include <libswscale/swscale.h>
+#include <libavutil/imgutils.h>
 };
 
 class VideoDecoder : public BaseDecoder {

@@ -35,6 +35,12 @@ add_library(
         #工具类
         ${CMAKE_SOURCE_DIR}/utils/logger.h
         ${CMAKE_SOURCE_DIR}/utils/timer.c
+
+        #渲染
+        ${CMAKE_SOURCE_DIR}/media/render/video/video_render.h
+        ${CMAKE_SOURCE_DIR}/media/render/video/native_render/native_render.h
+        ${CMAKE_SOURCE_DIR}/media/render/video/native_render/native_render.cpp
+
 )
 
 #add_libray添加FFmpeg 相关so库，
