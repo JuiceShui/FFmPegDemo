@@ -1,6 +1,7 @@
 #include <jni.h>
 #include <string>
 #include <unistd.h>
+#include "media/player/def_player/player.h"
 
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_demo_ffmpegjnidemo_MainActivity_stringFromJNI(
@@ -40,4 +41,23 @@ Java_com_demo_ffmpegjnidemo_MainActivity_ffmpegInfo(JNIEnv *env, jobject thiz) {
     }
     return env->NewStringUTF(info);
 }
+}
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_demo_ffmpegjnidemo_MainActivity_createPlayer(JNIEnv *env, jobject thiz, jstring path,
+                                                      jobject surface) {
+    Player *player = new Player(env, path, surface);
+    return (jint) player;
+}
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_demo_ffmpegjnidemo_MainActivity_play(JNIEnv *env, jobject thiz, jint player) {
+    Player *p = (Player *) player;
+    p->play();
+}
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_demo_ffmpegjnidemo_MainActivity_pasue(JNIEnv *env, jobject thiz, jint player) {
+    Player *p = (Player *) player;
+    p->pause();
 }

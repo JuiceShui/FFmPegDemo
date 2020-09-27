@@ -11,6 +11,10 @@
 #include <android/native_window.h>
 #include <android/native_window_jni.h>
 
+extern "C" {
+#include <libavutil/mem.h>
+};
+
 class NativeRender : public VideoRender {
 private:
     const char *TAG = "NativeRender";

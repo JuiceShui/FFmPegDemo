@@ -38,8 +38,13 @@ add_library(
 
         #渲染
         ${CMAKE_SOURCE_DIR}/media/render/video/video_render.h
-        ${CMAKE_SOURCE_DIR}/media/render/video/native_render/native_render.h
         ${CMAKE_SOURCE_DIR}/media/render/video/native_render/native_render.cpp
+        ${CMAKE_SOURCE_DIR}/media/one_frame.h
+
+        #播放器
+        ${CMAKE_SOURCE_DIR}/media/player/def_player/player.h
+        ${CMAKE_SOURCE_DIR}/media/player/def_player/player.cpp
+
 
 )
 
@@ -137,6 +142,7 @@ target_link_libraries(
         avutil
         swresample
         swscale
+        -landroid
         ${log-lib}
 )
 

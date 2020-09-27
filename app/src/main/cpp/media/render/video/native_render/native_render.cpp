@@ -2,6 +2,7 @@
 // Created by Administrator on 2020/9/25.
 //
 
+#include <string.h>
 #include "native_render.h"
 
 NativeRender::NativeRender(JNIEnv *env, jobject surface) {
@@ -38,8 +39,21 @@ void NativeRender::Render(OneFrame *one_frame) {
     //锁定窗口
     ANativeWindow_lock(m_native_window, &m_out_buffer, NULL);
     uint8_t *dst = (uint8_t *) m_out_buffer.bits;
-    //获取stride ，一行
-    int desStride = m_out_buffer.stride * 4;
+    // 获取stride：一行可以保存的内存像素数量*4（即：rgba的位数）
+    int dstStride = m_out_buffer.stride * 4;
     int srcStride = one_frame->line_size;
 
+    // 由于window的stride和帧的stride不同，因此需要逐行复制
+    for (int h = 0; h < m_dst_h; h++) {
+        memcpy(dst + h * dstStride, one_frame->data + h * srcStride, srcStride);
+    }
+    //释放窗口
+    ANativeWindow_unlockAndPost(m_native_window);
+}
+
+void NativeRender::ReleaseRender() {
+    if (m_native_window != NULL) {
+        ANativeWindow_release(m_native_window);
+    }
+    av_free(&m_out_buffer);
 }

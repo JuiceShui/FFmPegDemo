@@ -16,7 +16,22 @@ void VideoDecoder::Prepare(JNIEnv *env) {
 }
 
 void VideoDecoder::InitRender(JNIEnv *env) {
-
+    if (m_video_render != NULL) {
+        int dst_size[2] = {-1, -1};
+        m_video_render->InitRender(env, width(),
+                                   height(), dst_size);
+        m_dst_w = dst_size[0];
+        m_dst_h = dst_size[1];
+        if (m_dst_w == -1) {
+            m_dst_w = width();
+        }
+        if (m_dst_h == -1) {
+            m_dst_h = height();
+        }
+        LOGE(TAG, "dst w:%d ,h:%d", m_dst_w, m_dst_h);
+    } else {
+        LOGE(TAG, "init render error ,should call setRender first");
+    }
 }
 
 void VideoDecoder::InitBuffer() {
@@ -44,7 +59,7 @@ VideoDecoder::~VideoDecoder() {
 }
 
 void VideoDecoder::SetRender(VideoRender *render) {
-
+    m_video_render = render;
 }
 
 bool VideoDecoder::NeedLoopDecode() {
@@ -52,7 +67,14 @@ bool VideoDecoder::NeedLoopDecode() {
 }
 
 void VideoDecoder::Render(AVFrame *frame) {
-
+    sws_scale(m_sws_ctx, frame->data, frame->linesize, 0,
+              height(), m_rgb_frame->data,
+              m_rgb_frame->linesize);
+    OneFrame *oneFrame =
+            new OneFrame(m_rgb_frame->data[0],
+                         m_rgb_frame->linesize[0], frame->pts,
+                         time_base(), NULL, false);
+    m_video_render->Render(oneFrame);
 }
 
 //释放相关资源
