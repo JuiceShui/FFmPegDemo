@@ -35,16 +35,33 @@ add_library(
         #工具类
         ${CMAKE_SOURCE_DIR}/utils/logger.h
         ${CMAKE_SOURCE_DIR}/utils/timer.c
-
+        ${CMAKE_SOURCE_DIR}/utils/const.h
         #渲染
         ${CMAKE_SOURCE_DIR}/media/render/video/video_render.h
         ${CMAKE_SOURCE_DIR}/media/render/video/native_render/native_render.cpp
+        ${CMAKE_SOURCE_DIR}/media/render/video/opengl_render/opengl_render.h
+        ${CMAKE_SOURCE_DIR}/media/render/video/opengl_render/opengl_render.cpp
         ${CMAKE_SOURCE_DIR}/media/one_frame.h
 
         #播放器
         ${CMAKE_SOURCE_DIR}/media/player/def_player/player.h
         ${CMAKE_SOURCE_DIR}/media/player/def_player/player.cpp
 
+        #EGL
+        ${CMAKE_SOURCE_DIR}/opengl/egl/egl_core.h
+        ${CMAKE_SOURCE_DIR}/opengl/egl/egl_core.cpp
+        ${CMAKE_SOURCE_DIR}/opengl/egl/egl_surface.h
+        ${CMAKE_SOURCE_DIR}/opengl/egl/egl_surface.cpp
+
+        #openGl 绘制器
+        ${CMAKE_SOURCE_DIR}/opengl/drawer/video_drawer.h
+        ${CMAKE_SOURCE_DIR}/opengl/drawer/video_drawer.cpp
+        ${CMAKE_SOURCE_DIR}/opengl/drawer/drawer.h
+        ${CMAKE_SOURCE_DIR}/opengl/drawer/drawer.cpp
+
+        #openGl 绘制代理
+        ${CMAKE_SOURCE_DIR}/opengl/drawer/proxy/drawer_proxy.h
+        ${CMAKE_SOURCE_DIR}/opengl/drawer/proxy/drawer_proxy.cpp
 
 )
 
@@ -143,6 +160,9 @@ target_link_libraries(
         swresample
         swscale
         -landroid
+        OpenSLES
+        -lEGL
+        -lGLESv2
         ${log-lib}
 )
 
