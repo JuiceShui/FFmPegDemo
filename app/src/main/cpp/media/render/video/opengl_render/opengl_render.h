@@ -8,11 +8,14 @@
 
 #include <jni.h>
 #include <android/native_window.h>
+#include <zconf.h>
+#include <memory>
 #include "../../../../opengl/egl/egl_surface.h"
 #include "../../../../opengl/drawer/proxy/drawer_proxy.h"
 
 class OpenGLRender {
 private:
+    //------------------成员变量------------------------------
     const char *TAG = "OPEN_GL_RENDER";
     enum STATE {
         NO_SURFACE,
@@ -41,7 +44,48 @@ private:
     int m_window_width = 0;
     int m_window_height = 0;
 
-    STATE m_state = STOP;
+    STATE m_state = NO_SURFACE;
+    //-----------------------------------------------------
+
+    //--------------私有方法-------------------------------
+    //初始化相关方法
+    void InitRenderThread();
+
+    bool InitEGL();
+
+    void InitDspWindow(JNIEnv *env);
+
+    //创建/销毁 Surface
+    void CreateSurface();
+
+    void DestroySurface();
+
+    //渲染
+    void Render();
+
+    //释放资源相关
+    void ReleaseRender();
+
+    void ReleaseDrawers();
+
+    void ReleaseSurface();
+
+    void ReleaseWindow();
+
+    //渲染线程回调方法
+    static void sRenderThread(std::shared_ptr<OpenGLRender> that);
+
+public:
+    OpenGLRender(JNIEnv *env, DrawerProxy *drawer_proxy);
+
+    ~OpenGLRender();
+
+    void setSurface(jobject surface);
+
+    void setOffScreenSize(int width, int height);
+
+    void Stop();
+
 };
 
 
